@@ -46,10 +46,26 @@ class LoanStreet:
 
     def update_loan(self, options):
         if options:
+            if options.get('id', None) is None:
+                return 'Must provide a loan identifier'
             if self.is_server_up():
-                url = f'{self._api_url}/create'
+                url = f'{self._api_url}/update'
                 return send_request("post", url, options)
             else:
                 return self.check_health()
         else:
             return 'No loan options specified for this loan'
+
+    def get_loan_info(self, loan_id):
+        if self.is_server_up():
+            url = f'{self._api_url}/get?id={loan_id}'
+            return send_request('get', url)
+
+    def get_all_loans(self):
+        if self.is_server_up():
+            url = f'{self._api_url}/all'
+            values = send_request('get', url)
+            values = values.lstrip(f'["').rstrip(f']"')
+            split_values = values.split(f'","')
+            return 'All loans: \n' + '\n'.join(split_values)
+
