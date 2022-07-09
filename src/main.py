@@ -34,8 +34,7 @@ if __name__ == "__main__":
     print(f'Loan info = {street.get_loan_info(loan_id)}')
 
     # now print all loans
-    print(street.get_all_loans());
-
+    print(street.get_all_loans())
 
 
 
